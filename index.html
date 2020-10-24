@@ -81,7 +81,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/24/test-my-site/">test_my_site</a>
+      <a class="article-title" href="/2020/10/24/test-my-site/">mysql 死锁测试</a>
     </h1>
   
 
@@ -89,11 +89,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>1.创建一张测试表<br>CREATE TABLE <code>ty</code> (<br>  <code>id</code> int(11) NOT NULL AUTO_INCREMENT,<br>  <code>a</code> int(11) DEFAULT NULL,<br>  <code>b</code> int(11) DEFAULT NULL,<br>  PRIMARY KEY (<code>id</code>),<br>  KEY <code>idxa</code> (<code>a</code>)<br>) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;</p>
+<p>2.navicat 工具开启事务1窗口<br>BEGIN;                          //第一步，开启事务1<br>UPDATE ty SET b =1 WHERE a = 2; //第三步，锁定 a = 2 的记录<br>UPDATE ty SET b =1 WHERE a = 3; //第五步，卡主，等待事务2上 a = 3 的锁<br>COMMIT;                         </p>
+<p>3.navicat 工具开启事务2窗口<br>BEGIN;                          //第二步，开启事务2<br>UPDATE ty SET b =1 WHERE a = 3; //第四步，锁定 a = 3 的记录<br>UPDATE ty SET b =1 WHERE a = 2; //第六步，等待事务1上 a = 2 的锁，事务1和事务2互相等待对方的锁，此时出现死锁，mysql 会回退当前事务<br>COMMIT;                         </p>
+<p>关于 mysql 锁分析的文章，看一篇大神的文章足矣:<br><a target="_blank" rel="noopener" href="http://hedengcheng.com/?p=771">http://hedengcheng.com/?p=771</a></p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/24/test-my-site/" data-id="ckgnb4pnp0001vsip9ap1agtp" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2020/10/24/test-my-site/" data-id="ckgnbbhko0001y4ip4fpaak3g" class="article-share-link">Share</a>
       
       
     </footer>
@@ -142,7 +146,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/24/hello-world/" data-id="ckgnb4pnj0000vsip5nghhbj9" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2020/10/24/hello-world/" data-id="ckgnbbhki0000y4ip1xlz3k4v" class="article-share-link">Share</a>
       
       
     </footer>
@@ -183,7 +187,7 @@
       <ul>
         
           <li>
-            <a href="/2020/10/24/test-my-site/">test_my_site</a>
+            <a href="/2020/10/24/test-my-site/">mysql 死锁测试</a>
           </li>
         
           <li>
