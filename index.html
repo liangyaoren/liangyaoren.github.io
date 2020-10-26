@@ -67,6 +67,56 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-简单工厂模式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/26/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" class="article-date">
+  <time datetime="2020-10-26T08:41:49.000Z" itemprop="datePublished">2020-10-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/26/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">简单工厂模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>简单工厂模式：专门定义一个类来负责创建其他类的实例，被创建的实例通常都具有共同的父类。</p>
+<p>例子如下：</p>
+<p><img src="/2020/10/26/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/111100_060847_SimpleFactory.jpg" alt="SimpleFactory.jpg"></p>
+<p>代码实现如下：  </p>
+<h2 id="1-定义Log接口"><a href="#1-定义Log接口" class="headerlink" title="1.定义Log接口"></a>1.定义Log接口</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.notejava.factory.simple;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> lyle 2018/6/19 11:03.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Log</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">write</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-定义FileLog类"><a href="#2-定义FileLog类" class="headerlink" title="2.定义FileLog类"></a>2.定义FileLog类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.notejava.factory.simple;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> lyle 2018/6/19 10:22.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileLog</span> <span class="keyword">implements</span> <span class="title">Log</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;write to file&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-定义DatabaseLog类"><a href="#3-定义DatabaseLog类" class="headerlink" title="3.定义DatabaseLog类"></a>3.定义DatabaseLog类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.notejava.factory.simple;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> lyle 2018/6/19 10:23.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DatabaseLog</span> <span class="keyword">implements</span> <span class="title">Log</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;write to database&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-定义LogFactory类"><a href="#4-定义LogFactory类" class="headerlink" title="4.定义LogFactory类"></a>4.定义LogFactory类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.notejava.factory.simple;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> lyle 2018/6/19 11:05.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LogFactory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Log <span class="title">createLog</span><span class="params">(String logType)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;fileLog&quot;</span>.equals(logType)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> FileLog();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;databaseLog&quot;</span>.equals(logType)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> DatabaseLog();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-定义Demo类"><a href="#5-定义Demo类" class="headerlink" title="5.定义Demo类"></a>5.定义Demo类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.notejava.factory.simple;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> lyle 2018/6/19 11:07.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String\[\] args)</span> </span>&#123;</span><br><span class="line">        LogFactory logFactory = <span class="keyword">new</span> LogFactory();</span><br><span class="line">        Log fileLog = logFactory.createLog(<span class="string">&quot;fileLog&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (fileLog != <span class="keyword">null</span>)</span><br><span class="line">            fileLog.write();</span><br><span class="line">        Log databaseLog = logFactory.createLog(<span class="string">&quot;databaseLog&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (databaseLog != <span class="keyword">null</span>)</span><br><span class="line">            databaseLog.write();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://liangyaoren.github.io/2020/10/26/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" data-id="ckgqaqfuh000jp8ipdjy9ep5g" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-单例的几种写法" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/10/26/%E5%8D%95%E4%BE%8B%E7%9A%84%E5%87%A0%E7%A7%8D%E5%86%99%E6%B3%95/" class="article-date">
@@ -106,7 +156,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liangyaoren.github.io/2020/10/26/%E5%8D%95%E4%BE%8B%E7%9A%84%E5%87%A0%E7%A7%8D%E5%86%99%E6%B3%95/" data-id="ckgqa9cpv0005dkip6epx9su5" class="article-share-link">Share</a>
+      <a data-url="http://liangyaoren.github.io/2020/10/26/%E5%8D%95%E4%BE%8B%E7%9A%84%E5%87%A0%E7%A7%8D%E5%86%99%E6%B3%95/" data-id="ckgqaqfu10005p8ip1ici40ky" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
@@ -145,7 +195,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liangyaoren.github.io/2020/10/26/spring%20boot%20%E5%8D%95%E7%8B%AC%E6%8E%A7%E5%88%B6%E6%9F%90%E4%B8%AA%E7%B1%BB%E7%9A%84%E6%97%A5%E5%BF%97%E7%BA%A7%E5%88%AB/" data-id="ckgqa9cpt0004dkip5hrsepm5" class="article-share-link">Share</a>
+      <a data-url="http://liangyaoren.github.io/2020/10/26/spring%20boot%20%E5%8D%95%E7%8B%AC%E6%8E%A7%E5%88%B6%E6%9F%90%E4%B8%AA%E7%B1%BB%E7%9A%84%E6%97%A5%E5%BF%97%E7%BA%A7%E5%88%AB/" data-id="ckgqaqfty0003p8ipba4hcprn" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
@@ -202,7 +252,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liangyaoren.github.io/2020/10/26/%E6%9C%AC%E5%9C%B0%E6%9C%BA%E5%99%A8%E6%90%AD%E5%BB%BA-kafka-%E9%9B%86%E7%BE%A4/" data-id="ckgqa9cq10009dkipbvw28423" class="article-share-link">Share</a>
+      <a data-url="http://liangyaoren.github.io/2020/10/26/%E6%9C%AC%E5%9C%B0%E6%9C%BA%E5%99%A8%E6%90%AD%E5%BB%BA-kafka-%E9%9B%86%E7%BE%A4/" data-id="ckgqaqfuf000ip8ip6ynqh5w6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kafka/" rel="tag">kafka</a></li></ul>
@@ -241,7 +291,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liangyaoren.github.io/2020/10/26/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1-group-by-%E6%9F%A5%E8%AF%A2%E7%9A%84%E4%BC%98%E5%8C%96/" data-id="ckgqa9cq5000bdkiped2she0b" class="article-share-link">Share</a>
+      <a data-url="http://liangyaoren.github.io/2020/10/26/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1-group-by-%E6%9F%A5%E8%AF%A2%E7%9A%84%E4%BC%98%E5%8C%96/" data-id="ckgqaqfuj000lp8ipf36n2hy6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
@@ -284,7 +334,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liangyaoren.github.io/2020/10/24/mysql%E6%AD%BB%E9%94%81%E6%B5%8B%E8%AF%95/" data-id="ckgqa9cps0003dkipgkutaxgg" class="article-share-link">Share</a>
+      <a data-url="http://liangyaoren.github.io/2020/10/24/mysql%E6%AD%BB%E9%94%81%E6%B5%8B%E8%AF%95/" data-id="ckgqaqftu0001p8ipa7wz9nur" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
@@ -330,7 +380,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liangyaoren.github.io/2020/09/26/mysql-%E9%87%8D%E7%BD%AE%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/" data-id="ckgqa9cpo0001dkip7try6ypd" class="article-share-link">Share</a>
+      <a data-url="http://liangyaoren.github.io/2020/09/26/mysql-%E9%87%8D%E7%BD%AE%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/" data-id="ckgqaqfu00004p8ip8i8h3bnd" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
@@ -370,7 +420,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liangyaoren.github.io/2020/08/26/kettle-%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/" data-id="ckgqa9cpg0000dkip6tz62h5k" class="article-share-link">Share</a>
+      <a data-url="http://liangyaoren.github.io/2020/08/26/kettle-%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/" data-id="ckgqaqftm0000p8ip4sfbac2w" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kettle/" rel="tag">kettle</a></li></ul>
@@ -408,7 +458,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liangyaoren.github.io/2020/07/26/%E5%B0%81%E8%A3%85%E4%B8%80%E4%B8%AA%20ExcelUtil/" data-id="ckgqa9cpy0008dkip2o3q2e7a" class="article-share-link">Share</a>
+      <a data-url="http://liangyaoren.github.io/2020/07/26/%E5%B0%81%E8%A3%85%E4%B8%80%E4%B8%AA%20ExcelUtil/" data-id="ckgqaqfu30008p8ipg2ga2w1m" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
@@ -443,7 +493,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/java/" style="font-size: 15px;">java</a> <a href="/tags/kafka/" style="font-size: 10px;">kafka</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+      <a href="/tags/java/" style="font-size: 15px;">java</a> <a href="/tags/kafka/" style="font-size: 10px;">kafka</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/mysql/" style="font-size: 20px;">mysql</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 15px;">设计模式</a>
     </div>
   </div>
 
@@ -465,6 +515,10 @@
       <ul>
         
           <li>
+            <a href="/2020/10/26/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">简单工厂模式</a>
+          </li>
+        
+          <li>
             <a href="/2020/10/26/%E5%8D%95%E4%BE%8B%E7%9A%84%E5%87%A0%E7%A7%8D%E5%86%99%E6%B3%95/">单例的几种写法</a>
           </li>
         
@@ -478,10 +532,6 @@
         
           <li>
             <a href="/2020/10/26/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1-group-by-%E6%9F%A5%E8%AF%A2%E7%9A%84%E4%BC%98%E5%8C%96/">记录一次 group by 查询的优化</a>
-          </li>
-        
-          <li>
-            <a href="/2020/10/24/mysql%E6%AD%BB%E9%94%81%E6%B5%8B%E8%AF%95/">mysql 死锁测试</a>
           </li>
         
       </ul>
