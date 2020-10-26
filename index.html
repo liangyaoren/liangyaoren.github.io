@@ -67,6 +67,45 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-记录一次-group-by-查询的优化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/26/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1-group-by-%E6%9F%A5%E8%AF%A2%E7%9A%84%E4%BC%98%E5%8C%96/" class="article-date">
+  <time datetime="2020-10-26T00:48:46.000Z" itemprop="datePublished">2020-10-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/26/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1-group-by-%E6%9F%A5%E8%AF%A2%E7%9A%84%E4%BC%98%E5%8C%96/">记录一次 group by 查询的优化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近维护一个老系统，有一处查询非常慢，细细研究一番，优化了查询 sql。<br>该 sql 用来统计摄像机所有状态对应的数量，没加联合索引之前很慢，最后加了三个字段的联合索引优化到一秒左右。<br>check_day, camera_id, diagnosis_result<br>要注意，group by 的列也要加到组合索引里面去，这样查询才快。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	<span class="keyword">ifnull</span>(a.diagnosis_result, <span class="string">&#x27;&#x27;</span>) diagnosisResult,</span><br><span class="line">	<span class="keyword">count</span>(<span class="number">1</span>) total</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">	video_camera aa</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> video_intact_diagnosis_status_201912 a <span class="keyword">ON</span> (</span><br><span class="line">	aa.id = a.camera_id</span><br><span class="line">	<span class="keyword">AND</span> a.check_day = <span class="string">&#x27;20191223&#x27;</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> unit_project p <span class="keyword">ON</span> p.id = aa.project_id</span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line">	aa.del_flag = <span class="number">0</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span></span><br><span class="line">	a.diagnosis_result</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/10/26/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1-group-by-%E6%9F%A5%E8%AF%A2%E7%9A%84%E4%BC%98%E5%8C%96/" data-id="ckgptqlb200018kipajql6icv" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-mysql死锁测试" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/10/24/mysql%E6%AD%BB%E9%94%81%E6%B5%8B%E8%AF%95/" class="article-date">
@@ -81,7 +120,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/24/mysql%E6%AD%BB%E9%94%81%E6%B5%8B%E8%AF%95/">mysql死锁测试</a>
+      <a class="article-title" href="/2020/10/24/mysql%E6%AD%BB%E9%94%81%E6%B5%8B%E8%AF%95/">mysql 死锁测试</a>
     </h1>
   
 
@@ -97,9 +136,11 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/10/24/mysql%E6%AD%BB%E9%94%81%E6%B5%8B%E8%AF%95/" data-id="ckgnbkufg00007cip0fli5erz" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2020/10/24/mysql%E6%AD%BB%E9%94%81%E6%B5%8B%E8%AF%95/" data-id="ckgptqlau00008kip05hm401z" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
     </footer>
   </div>
   
@@ -117,9 +158,23 @@
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/mysql/" style="font-size: 10px;">mysql</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
@@ -138,7 +193,11 @@
       <ul>
         
           <li>
-            <a href="/2020/10/24/mysql%E6%AD%BB%E9%94%81%E6%B5%8B%E8%AF%95/">mysql死锁测试</a>
+            <a href="/2020/10/26/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1-group-by-%E6%9F%A5%E8%AF%A2%E7%9A%84%E4%BC%98%E5%8C%96/">记录一次 group by 查询的优化</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/24/mysql%E6%AD%BB%E9%94%81%E6%B5%8B%E8%AF%95/">mysql 死锁测试</a>
           </li>
         
       </ul>
