@@ -67,6 +67,52 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-mysql-重置主从复制" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/26/mysql-%E9%87%8D%E7%BD%AE%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/" class="article-date">
+  <time datetime="2020-10-26T06:15:39.000Z" itemprop="datePublished">2020-10-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/26/mysql-%E9%87%8D%E7%BD%AE%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/">mysql 重置主从复制</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>数据库主从在实际使用之中，竟然由于各种各样的原因导致数据不一致，需要重新配置。</p>
+<h1 id="1、连接主库"><a href="#1、连接主库" class="headerlink" title="1、连接主库"></a>1、连接主库</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">MASTER</span> <span class="keyword">STATUS</span>；</span><br></pre></td></tr></table></figure>
+<p>记录下 master_log_pos 的位置，后面需要用到。</p>
+<h1 id="2、连接从库"><a href="#2、连接从库" class="headerlink" title="2、连接从库"></a>2、连接从库</h1><h2 id="2-1、停用从库"><a href="#2-1、停用从库" class="headerlink" title="2.1、停用从库"></a>2.1、停用从库</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">STOP</span> <span class="keyword">SLAVE</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="2-2、重置从库"><a href="#2-2、重置从库" class="headerlink" title="2.2、重置从库"></a>2.2、重置从库</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">reset</span> <span class="keyword">slave</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="2-3、修改主从指向配置"><a href="#2-3、修改主从指向配置" class="headerlink" title="2.3、修改主从指向配置"></a>2.3、修改主从指向配置</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CHANGE</span> <span class="keyword">MASTER</span> <span class="keyword">TO</span> master_host = <span class="string">&#x27;172.20.5.20&#x27;</span>,</span><br><span class="line"> master_user = <span class="string">&#x27;root&#x27;</span>,</span><br><span class="line"> master_password = <span class="string">&#x27;rootroot&#x27;</span>,</span><br><span class="line"> master_port = <span class="number">3306</span>,</span><br><span class="line"> master_log_file = <span class="string">&#x27;edu-mysql-bin.000016&#x27;</span>,</span><br><span class="line"> master_log_pos = <span class="number">978213840</span>,</span><br><span class="line"> master_connect_retry = <span class="number">30</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="2-4、开启同步"><a href="#2-4、开启同步" class="headerlink" title="2.4、开启同步"></a>2.4、开启同步</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">START</span> <span class="keyword">SLAVE</span>;</span><br></pre></td></tr></table></figure>
+<p>另外，测试环境也经常遇到由于表结构修改后不同步，导致数据同步出错，此时可以跳过错误的语句使得测试进行下去。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">stop</span> <span class="keyword">slave</span>; </span><br><span class="line"><span class="keyword">set</span> <span class="keyword">global</span> sql_slave_skip_counter = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">start</span> <span class="keyword">slave</span>;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://liangyaoren.github.io/2020/10/26/mysql-%E9%87%8D%E7%BD%AE%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/" data-id="ckgq605lf0001ogip3sggeyk2" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-本地机器搭建-kafka-集群" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/10/26/%E6%9C%AC%E5%9C%B0%E6%9C%BA%E5%99%A8%E6%90%AD%E5%BB%BA-kafka-%E9%9B%86%E7%BE%A4/" class="article-date">
@@ -89,7 +135,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="1、虚拟三台CentOS"><a href="#1、虚拟三台CentOS" class="headerlink" title="1、虚拟三台CentOS"></a>1、虚拟三台CentOS</h1><p>1、管理员模式启动 VMware。<br>2、VMware =&gt; 编辑 =&gt; 虚拟网络编辑器 =&gt;选择 Net 模式；关闭 dhcp；记录下网关地址。<br>3、虚拟出三台主机后，修改静态ip，网段和第2点的网段一样，网关对应第2点的网关地址。重启 service network restart。<br>4、修改宿主主机的 VMware Network Adapter VMnet8 的 ip 地址，设置和第2点同样的网段地址。（非常重要，否则会出现主机 ping 不通虚拟机的情况）<br>参考文章 <a target="_blank" rel="noopener" href="https://www.linuxidc.com/Linux/2017-05/144328.htm">https://www.linuxidc.com/Linux/2017-05/144328.htm</a><br>#2、安装 zookeeper<br>1、参考文章<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/luotianshuai/p/5206662.html">https://www.cnblogs.com/luotianshuai/p/5206662.html</a></p>
+        <h1 id="1、虚拟三台CentOS"><a href="#1、虚拟三台CentOS" class="headerlink" title="1、虚拟三台CentOS"></a>1、虚拟三台CentOS</h1><p>1、管理员模式启动 VMware。<br>2、VMware =&gt; 编辑 =&gt; 虚拟网络编辑器 =&gt;选择 Net 模式；关闭 dhcp；记录下网关地址。<br>3、虚拟出三台主机后，修改静态ip，网段和第2点的网段一样，网关对应第2点的网关地址。重启 service network restart。<br>4、修改宿主主机的 VMware Network Adapter VMnet8 的 ip 地址，设置和第2点同样的网段地址。（非常重要，否则会出现主机 ping 不通虚拟机的情况）<br>参考文章 <a target="_blank" rel="noopener" href="https://www.linuxidc.com/Linux/2017-05/144328.htm">https://www.linuxidc.com/Linux/2017-05/144328.htm</a></p>
+<h1 id="2、安装-zookeeper"><a href="#2、安装-zookeeper" class="headerlink" title="2、安装 zookeeper"></a>2、安装 zookeeper</h1><p>1、参考文章<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/luotianshuai/p/5206662.html">https://www.cnblogs.com/luotianshuai/p/5206662.html</a></p>
 <p>2、替换可用yum源，非常重要，参考其他笔记</p>
 <p>3、安装jdk</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install java-1.8.0-openjdk*</span><br></pre></td></tr></table></figure>
@@ -100,7 +147,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/home/zookeeper/apache-zookeeper-3.5.5-bin/bin/zkServer.sh start //直接启动</span><br><span class="line">/home/zookeeper/apache-zookeeper-3.5.5-bin/bin/zkServer.sh start-foreground //边启动边看日志</span><br></pre></td></tr></table></figure>
 <p>6、查看状态</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/home/zookeeper/apache-zookeeper-3.5.5-bin/bin/zkServer.sh status</span><br></pre></td></tr></table></figure>
-<p>#3、安装 kafka<br>1、kafka 安装简要命令</p>
+<h1 id="3、安装-kafka"><a href="#3、安装-kafka" class="headerlink" title="3、安装 kafka"></a>3、安装 kafka</h1><p>1、kafka 安装简要命令</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mkdir /home/kafka</span><br><span class="line">wget ...</span><br><span class="line">tar -xvf ...</span><br><span class="line">vi server.properties</span><br><span class="line">配置下面两项---</span><br><span class="line">host.name=192.168.75.86</span><br><span class="line">zookeeper.connect=192.168.75.86:2181,192.168.75.87:2181,192.168.75.88:2181</span><br><span class="line">结束配置-----</span><br></pre></td></tr></table></figure>
 <p>2、启动</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/home/kafka/kafka_2.12-2.2.0/bin/kafka-server-start.sh -daemon /home/kafka/kafka_2.12-2.2.0/config/server.properties</span><br></pre></td></tr></table></figure>
@@ -111,7 +158,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liangyaoren.github.io/2020/10/26/%E6%9C%AC%E5%9C%B0%E6%9C%BA%E5%99%A8%E6%90%AD%E5%BB%BA-kafka-%E9%9B%86%E7%BE%A4/" data-id="ckgpy0wv4000468ip94j8b4tw" class="article-share-link">Share</a>
+      <a data-url="http://liangyaoren.github.io/2020/10/26/%E6%9C%AC%E5%9C%B0%E6%9C%BA%E5%99%A8%E6%90%AD%E5%BB%BA-kafka-%E9%9B%86%E7%BE%A4/" data-id="ckgq605lo0005ogipahwjhag3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kafka/" rel="tag">kafka</a></li></ul>
@@ -150,7 +197,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liangyaoren.github.io/2020/10/26/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1-group-by-%E6%9F%A5%E8%AF%A2%E7%9A%84%E4%BC%98%E5%8C%96/" data-id="ckgpy0wv5000568ipbmdr5ede" class="article-share-link">Share</a>
+      <a data-url="http://liangyaoren.github.io/2020/10/26/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1-group-by-%E6%9F%A5%E8%AF%A2%E7%9A%84%E4%BC%98%E5%8C%96/" data-id="ckgq605lx000fogip9j3o573y" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
@@ -190,7 +237,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liangyaoren.github.io/2020/10/26/kettle-%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/" data-id="ckgpy0wus000068ip6gtlfvb9" class="article-share-link">Share</a>
+      <a data-url="http://liangyaoren.github.io/2020/10/26/kettle-%E8%B8%A9%E8%BF%87%E7%9A%84%E5%9D%91/" data-id="ckgq605l50000ogip8bwd4d2m" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kettle/" rel="tag">kettle</a></li></ul>
@@ -228,7 +275,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liangyaoren.github.io/2020/10/26/%E5%B0%81%E8%A3%85%E4%B8%80%E4%B8%AA%20ExcelUtil/" data-id="ckgpy0wv2000368ipgp1u4y6m" class="article-share-link">Share</a>
+      <a data-url="http://liangyaoren.github.io/2020/10/26/%E5%B0%81%E8%A3%85%E4%B8%80%E4%B8%AA%20ExcelUtil/" data-id="ckgq605lm0004ogiphwnh1v45" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
@@ -271,7 +318,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liangyaoren.github.io/2020/10/24/mysql%E6%AD%BB%E9%94%81%E6%B5%8B%E8%AF%95/" data-id="ckgpy0wuy000168ipe6tu2fqh" class="article-share-link">Share</a>
+      <a data-url="http://liangyaoren.github.io/2020/10/24/mysql%E6%AD%BB%E9%94%81%E6%B5%8B%E8%AF%95/" data-id="ckgq605ll0003ogip65inhr9s" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
@@ -328,6 +375,10 @@
       <ul>
         
           <li>
+            <a href="/2020/10/26/mysql-%E9%87%8D%E7%BD%AE%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/">mysql 重置主从复制</a>
+          </li>
+        
+          <li>
             <a href="/2020/10/26/%E6%9C%AC%E5%9C%B0%E6%9C%BA%E5%99%A8%E6%90%AD%E5%BB%BA-kafka-%E9%9B%86%E7%BE%A4/">本地机器搭建 kafka 集群</a>
           </li>
         
@@ -341,10 +392,6 @@
         
           <li>
             <a href="/2020/10/26/%E5%B0%81%E8%A3%85%E4%B8%80%E4%B8%AA%20ExcelUtil/">封装一个 ExcelUtil</a>
-          </li>
-        
-          <li>
-            <a href="/2020/10/24/mysql%E6%AD%BB%E9%94%81%E6%B5%8B%E8%AF%95/">mysql 死锁测试</a>
           </li>
         
       </ul>
