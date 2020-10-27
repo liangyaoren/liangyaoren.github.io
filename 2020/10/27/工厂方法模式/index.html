@@ -5,22 +5,22 @@
   
 
   
-  <title>简单工厂模式 | liangyaoren 的个人空间</title>
+  <title>工厂方法模式 | liangyaoren 的个人空间</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="简单工厂模式：专门定义一个类来负责创建其他类的实例，被创建的实例通常都具有共同的父类。 例子如下：  代码实现如下：   1.定义Log接口12345678package com.notejava.factory.simple;&#x2F;** * @author lyle 2018&#x2F;6&#x2F;19 11:03. *&#x2F;public interface Log &amp;#123;    void write();&amp;#12">
+  <meta name="description" content="工厂方法模式将工厂也进行抽象化，产品类的实例化又对应的子工厂实例化。   例子如下：    代码实现如下：   1.定义Log接口12345678package com.notejava.factory.simple;&#x2F;** * @author lyle 2018&#x2F;6&#x2F;19 11:03. *&#x2F;public interface Log &amp;#123;    void write();&amp;#125;  2">
 <meta property="og:type" content="article">
-<meta property="og:title" content="简单工厂模式">
-<meta property="og:url" content="http://liangyaoren.github.io/2020/10/26/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:title" content="工厂方法模式">
+<meta property="og:url" content="http://liangyaoren.github.io/2020/10/27/%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="liangyaoren 的个人空间">
-<meta property="og:description" content="简单工厂模式：专门定义一个类来负责创建其他类的实例，被创建的实例通常都具有共同的父类。 例子如下：  代码实现如下：   1.定义Log接口12345678package com.notejava.factory.simple;&#x2F;** * @author lyle 2018&#x2F;6&#x2F;19 11:03. *&#x2F;public interface Log &amp;#123;    void write();&amp;#12">
+<meta property="og:description" content="工厂方法模式将工厂也进行抽象化，产品类的实例化又对应的子工厂实例化。   例子如下：    代码实现如下：   1.定义Log接口12345678package com.notejava.factory.simple;&#x2F;** * @author lyle 2018&#x2F;6&#x2F;19 11:03. *&#x2F;public interface Log &amp;#123;    void write();&amp;#125;  2">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://liangyaoren.github.io/2020/10/26/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/111100_060847_SimpleFactory.jpg">
-<meta property="article:published_time" content="2020-10-26T08:41:49.000Z">
-<meta property="article:modified_time" content="2020-10-26T08:45:33.064Z">
+<meta property="og:image" content="http://liangyaoren.github.io/2020/10/27/%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/174422_010675_factoryMethod.jpg">
+<meta property="article:published_time" content="2020-10-27T01:30:54.000Z">
+<meta property="article:modified_time" content="2020-10-27T01:58:47.944Z">
 <meta property="article:author" content="liangyaoren">
 <meta property="article:tag" content="设计模式">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://liangyaoren.github.io/2020/10/26/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/111100_060847_SimpleFactory.jpg">
+<meta name="twitter:image" content="http://liangyaoren.github.io/2020/10/27/%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/174422_010675_factoryMethod.jpg">
   
     <link rel="alternate" href="/atom.xml" title="liangyaoren 的个人空间" type="application/atom+xml">
   
@@ -69,10 +69,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-简单工厂模式" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-工厂方法模式" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/10/26/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" class="article-date">
-  <time datetime="2020-10-26T08:41:49.000Z" itemprop="datePublished">2020-10-26</time>
+    <a href="/2020/10/27/%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/" class="article-date">
+  <time datetime="2020-10-27T01:30:54.000Z" itemprop="datePublished">2020-10-27</time>
 </a>
     
   </div>
@@ -83,7 +83,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      简单工厂模式
+      工厂方法模式
     </h1>
   
 
@@ -91,9 +91,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>简单工厂模式：专门定义一个类来负责创建其他类的实例，被创建的实例通常都具有共同的父类。</p>
-<p>例子如下：</p>
-<p><img src="/2020/10/26/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/111100_060847_SimpleFactory.jpg" alt="SimpleFactory.jpg"></p>
+        <p>工厂方法模式将工厂也进行抽象化，产品类的实例化又对应的子工厂实例化。  </p>
+<p>例子如下：  </p>
+<p><img src="/2020/10/27/%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/174422_010675_factoryMethod.jpg" alt="factoryMethod.jpg"></p>
 <p>代码实现如下：  </p>
 <h2 id="1-定义Log接口"><a href="#1-定义Log接口" class="headerlink" title="1.定义Log接口"></a>1.定义Log接口</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.notejava.factory.simple;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> lyle 2018/6/19 11:03.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Log</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">write</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -101,13 +101,17 @@
 
 <h2 id="3-定义DatabaseLog类"><a href="#3-定义DatabaseLog类" class="headerlink" title="3.定义DatabaseLog类"></a>3.定义DatabaseLog类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.notejava.factory.simple;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> lyle 2018/6/19 10:23.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DatabaseLog</span> <span class="keyword">implements</span> <span class="title">Log</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;write to database&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="4-定义LogFactory类"><a href="#4-定义LogFactory类" class="headerlink" title="4.定义LogFactory类"></a>4.定义LogFactory类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.notejava.factory.simple;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> lyle 2018/6/19 11:05.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LogFactory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Log <span class="title">createLog</span><span class="params">(String logType)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;fileLog&quot;</span>.equals(logType)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> FileLog();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;databaseLog&quot;</span>.equals(logType)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> DatabaseLog();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4-定义LogFactory类"><a href="#4-定义LogFactory类" class="headerlink" title="4.定义LogFactory类"></a>4.定义LogFactory类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.notejava.factory.method;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> lyle 2018/6/19 10:20.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">LogFactory</span> </span>&#123;</span><br><span class="line">    <span class="function">Log <span class="title">createLog</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="5-定义Demo类"><a href="#5-定义Demo类" class="headerlink" title="5.定义Demo类"></a>5.定义Demo类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.notejava.factory.simple;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> lyle 2018/6/19 11:07.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String\[\] args)</span> </span>&#123;</span><br><span class="line">        LogFactory logFactory = <span class="keyword">new</span> LogFactory();</span><br><span class="line">        Log fileLog = logFactory.createLog(<span class="string">&quot;fileLog&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (fileLog != <span class="keyword">null</span>)</span><br><span class="line">            fileLog.write();</span><br><span class="line">        Log databaseLog = logFactory.createLog(<span class="string">&quot;databaseLog&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (databaseLog != <span class="keyword">null</span>)</span><br><span class="line">            databaseLog.write();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="5-定义FileLogFactory类"><a href="#5-定义FileLogFactory类" class="headerlink" title="5.定义FileLogFactory类"></a>5.定义FileLogFactory类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.notejava.factory.method;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> lyle 2018/6/19 10:21.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileLogFactory</span> <span class="keyword">implements</span> <span class="title">LogFactory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Log <span class="title">createLog</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> FileLog();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-定义DatabaseLogFactory类"><a href="#6-定义DatabaseLogFactory类" class="headerlink" title="6.定义DatabaseLogFactory类"></a>6.定义DatabaseLogFactory类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.notejava.factory.method;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> lyle 2018/6/19 10:21.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DatabaseLogFactory</span> <span class="keyword">implements</span> <span class="title">LogFactory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Log <span class="title">createLog</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> DatabaseLog();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-定义Demo类"><a href="#7-定义Demo类" class="headerlink" title="7.定义Demo类"></a>7.定义Demo类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.notejava.factory.method;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> lyle 2018/6/19 10:18.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String\[\] args)</span> </span>&#123;</span><br><span class="line">        FileLogFactory fileLogFactory = <span class="keyword">new</span> FileLogFactory();</span><br><span class="line">        Log fileLog = fileLogFactory.createLog();</span><br><span class="line">        fileLog.write();</span><br><span class="line"></span><br><span class="line">        DatabaseLogFactory databaseLogFactory = <span class="keyword">new</span> DatabaseLogFactory();</span><br><span class="line">        Log databaseLog = databaseLogFactory.createLog();</span><br><span class="line">        databaseLog.write();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://liangyaoren.github.io/2020/10/26/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" data-id="ckgrbngzv000olcip6rpl2wjm" class="article-share-link">Share</a>
+      <a data-url="http://liangyaoren.github.io/2020/10/27/%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/" data-id="ckgrbngzm000elciparl5def3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
@@ -118,19 +122,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2020/10/27/%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/10/27/%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          工厂方法模式
+          抽象工厂模式
         
       </div>
     </a>
   
   
-    <a href="/2020/10/26/%E5%8D%95%E4%BE%8B%E7%9A%84%E5%87%A0%E7%A7%8D%E5%86%99%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/10/26/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">单例的几种写法</div>
+      <div class="article-nav-title">简单工厂模式</div>
     </a>
   
 </nav>
