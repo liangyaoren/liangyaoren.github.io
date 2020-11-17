@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>因消费速度太慢引起的 kafka rebalance 报错 | liangyaoren 的个人空间</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="之前项目使用 kafka 有个 rebalance 报错的问题，折腾了好一会，后来搞明白是怎么回事，记录一下。 1、报错信息1234567891008-09 11:01:11 131 pool-7-thread-3 ERROR [] - commit failed org.apache.kafka.clients.consumer.CommitFailedException: Commit can">
+<meta property="og:type" content="article">
+<meta property="og:title" content="因消费速度太慢引起的 kafka rebalance 报错">
+<meta property="og:url" content="http://liangyaoren.github.io/2020/11/17/%E5%9B%A0%E6%B6%88%E8%B4%B9%E9%80%9F%E5%BA%A6%E5%A4%AA%E6%85%A2%E5%BC%95%E8%B5%B7%E7%9A%84-kafka-rebalance-%E6%8A%A5%E9%94%99/index.html">
+<meta property="og:site_name" content="liangyaoren 的个人空间">
+<meta property="og:description" content="之前项目使用 kafka 有个 rebalance 报错的问题，折腾了好一会，后来搞明白是怎么回事，记录一下。 1、报错信息1234567891008-09 11:01:11 131 pool-7-thread-3 ERROR [] - commit failed org.apache.kafka.clients.consumer.CommitFailedException: Commit can">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-11-17T01:06:50.000Z">
+<meta property="article:modified_time" content="2020-11-17T01:23:56.664Z">
+<meta property="article:author" content="liangyaoren">
+<meta property="article:tag" content="kafka">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="liangyaoren 的个人空间" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">liangyaoren 的个人空间</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://liangyaoren.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-因消费速度太慢引起的-kafka-rebalance-报错" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/11/17/%E5%9B%A0%E6%B6%88%E8%B4%B9%E9%80%9F%E5%BA%A6%E5%A4%AA%E6%85%A2%E5%BC%95%E8%B5%B7%E7%9A%84-kafka-rebalance-%E6%8A%A5%E9%94%99/" class="article-date">
+  <time datetime="2020-11-17T01:06:50.000Z" itemprop="datePublished">2020-11-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      因消费速度太慢引起的 kafka rebalance 报错
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>之前项目使用 kafka 有个 rebalance 报错的问题，折腾了好一会，后来搞明白是怎么回事，记录一下。</p>
+<h2 id="1、报错信息"><a href="#1、报错信息" class="headerlink" title="1、报错信息"></a>1、报错信息</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">08</span>-<span class="number">09</span> <span class="number">11</span>:<span class="number">01</span>:<span class="number">11</span> <span class="number">131</span> pool-<span class="number">7</span>-thread-<span class="number">3</span> ERROR [] - </span><br><span class="line">commit failed </span><br><span class="line">org.apache.kafka.clients.consumer.CommitFailedException: Commit cannot be completed since the group has already rebalanced and assigned the partitions to another member. <span class="function">This means that the time between subsequent calls to <span class="title">poll</span><span class="params">()</span> was longer than the configured max.poll.interval.ms, which typically implies that the poll loop is spending too much time message processing. You can address <span class="keyword">this</span> either by increasing the session timeout or by reducing the maximum size of batches returned in <span class="title">poll</span><span class="params">()</span> with max.poll.records.</span></span><br><span class="line"><span class="function">        at org.apache.kafka.clients.consumer.internals.ConsumerCoordinator.<span class="title">sendOffsetCommitRequest</span><span class="params">(ConsumerCoordinator.java:<span class="number">713</span>)</span> ~[MsgAgent-jar-with-dependencies.jar:na]</span></span><br><span class="line"><span class="function">        at org.apache.kafka.clients.consumer.internals.ConsumerCoordinator.<span class="title">commitOffsetsSync</span><span class="params">(ConsumerCoordinator.java:<span class="number">596</span>)</span> ~[MsgAgent-jar-with-dependencies.jar:na]</span></span><br><span class="line"><span class="function">        at org.apache.kafka.clients.consumer.KafkaConsumer.<span class="title">commitSync</span><span class="params">(KafkaConsumer.java:<span class="number">1218</span>)</span> ~[MsgAgent-jar-with-dependencies.jar:na]</span></span><br><span class="line"><span class="function">        at com.today.eventbus.common.MsgConsumer.<span class="title">run</span><span class="params">(MsgConsumer.java:<span class="number">121</span>)</span> ~[MsgAgent-jar-with-dependencies.jar:na]</span></span><br><span class="line"><span class="function">        at java.util.concurrent.ThreadPoolExecutor.<span class="title">runWorker</span><span class="params">(ThreadPoolExecutor.java:<span class="number">1149</span>)</span> [na:1.8.0_161]</span></span><br><span class="line"><span class="function">        at java.util.concurrent.ThreadPoolExecutor$Worker.<span class="title">run</span><span class="params">(ThreadPoolExecutor.java:<span class="number">624</span>)</span> [na:1.8.0_161]</span></span><br><span class="line"><span class="function">        at java.lang.Thread.<span class="title">run</span><span class="params">(Thread.java:<span class="number">748</span>)</span> [na:1.8.0_161]</span></span><br></pre></td></tr></table></figure>
+<h2 id="2、报错原因"><a href="#2、报错原因" class="headerlink" title="2、报错原因"></a>2、报错原因</h2><p>这个报错是消费者在处理完上次 poll 的消息后，在同步提交偏移量给 broker 时报的错。初步分析日志是由于当前消费者线程消费的分区已经被 broker 给回收了，因为kafka认为这个消费者死了。<br>消费者在创建时有一个重要的配置<code>max.poll.interval.ms</code>，这个配置的意思是kafka消费者在每次 poll() 调用之间的最大延迟，消费者在获取更多记录之前可以空闲的时间量的上限。如果此超时时间期满之前 poll() 没有被再次调用，则消费者被视为失败，并且分组将重新平衡，以便将分区重新分配给别的成员。<br><strong>那么简单来说就是，消费者消费速度跟不上，无法在指定时间内消费完上次 poll 的数据。</strong></p>
+<h2 id="3、解决办法"><a href="#3、解决办法" class="headerlink" title="3、解决办法"></a>3、解决办法</h2><p>解决方法很简单，根据自身消费速度调整配置。<br>1、调大 max.poll.interval.ms<br>2、调小 max.poll.records （建议）<br><strong>我最终选择了第二个办法，除此以外我还 review 了消费的业务代码，最终发现了一条慢 sql 拖垮了消费速度，优化 sql 后，完美解决这个问题。</strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://liangyaoren.github.io/2020/11/17/%E5%9B%A0%E6%B6%88%E8%B4%B9%E9%80%9F%E5%BA%A6%E5%A4%AA%E6%85%A2%E5%BC%95%E8%B5%B7%E7%9A%84-kafka-rebalance-%E6%8A%A5%E9%94%99/" data-id="ckhlanco5000es4ip9s2h8ne5" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kafka/" rel="tag">kafka</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/11/17/redis-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%87%A0%E4%B8%AA%E7%89%88%E6%9C%AC/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">redis 分布式锁的几个版本</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/" rel="tag">kafka</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kettle/" rel="tag">kettle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/java/" style="font-size: 13.33px;">java</a> <a href="/tags/kafka/" style="font-size: 13.33px;">kafka</a> <a href="/tags/kettle/" style="font-size: 10px;">kettle</a> <a href="/tags/mysql/" style="font-size: 16.67px;">mysql</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 20px;">设计模式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">九月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">七月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/11/17/%E5%9B%A0%E6%B6%88%E8%B4%B9%E9%80%9F%E5%BA%A6%E5%A4%AA%E6%85%A2%E5%BC%95%E8%B5%B7%E7%9A%84-kafka-rebalance-%E6%8A%A5%E9%94%99/">因消费速度太慢引起的 kafka rebalance 报错</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/17/redis-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%87%A0%E4%B8%AA%E7%89%88%E6%9C%AC/">redis 分布式锁的几个版本</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/17/%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%E7%9A%84%E7%90%86%E8%A7%A3/">事务隔离级别的理解</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/27/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/">适配器模式</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/27/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">观察者模式</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 liangyaoren<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
