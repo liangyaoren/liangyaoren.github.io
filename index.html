@@ -447,10 +447,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2020-11-17 08:27:43 / 修改时间：08:47:12" itemprop="dateCreated datePublished" datetime="2020-11-17T08:27:43+08:00">2020-11-17</time>
+      <time title="创建时间：2020-11-17 08:27:43" itemprop="dateCreated datePublished" datetime="2020-11-17T08:27:43+08:00">2020-11-17</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-02-06 09:26:19" itemprop="dateModified" datetime="2021-02-06T09:26:19+08:00">2021-02-06</time>
+      </span>
 
   
 </div>
@@ -462,10 +468,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>mysql 支持四种事务隔离级别，每种事务隔离级别都各有优缺点。</p>
+          <p>mysql 支持四种事务隔离级别，每种事务隔离级别都各有优缺点。每隔一个阶段，都会对事务产生新的理解。</p>
 <h2 id="1、Read-uncommitted-读未提交"><a href="#1、Read-uncommitted-读未提交" class="headerlink" title="1、Read uncommitted 读未提交"></a>1、Read uncommitted 读未提交</h2><p>指当前事务可以读取到其他事务尚未提交的修改。此时会出现脏读的问题。</p>
 <h2 id="2、Read-committed-读提交"><a href="#2、Read-committed-读提交" class="headerlink" title="2、Read committed 读提交"></a>2、Read committed 读提交</h2><p>指当前事务只能读取到其他事务已经提交的修改。此时不会出现脏读的问题，但不能重复读，也就是同一个事务里面不能保证前后读取的数据是一致的。</p>
-<h2 id="3、Repeatable-read-可重复读（mysql-默认的级别）"><a href="#3、Repeatable-read-可重复读（mysql-默认的级别）" class="headerlink" title="3、Repeatable read 可重复读（mysql 默认的级别）"></a>3、Repeatable read 可重复读（mysql 默认的级别）</h2><p>指当前事务内每次读取的数据都是一致的，这是因为事务一开启，数据就上了写锁，其他事务不能再修改。此时不能保证幻读，幻读是由于事务并行处理导致的。跟 java 的并发处理一样的道理。</p>
+<h2 id="3、Repeatable-read-可重复读（mysql-默认的级别）"><a href="#3、Repeatable-read-可重复读（mysql-默认的级别）" class="headerlink" title="3、Repeatable read 可重复读（mysql 默认的级别）"></a>3、Repeatable read 可重复读（mysql 默认的级别）</h2><p>指当前事务内每次读取的数据都是一致的，这是因为事务一开启，数据就上了写锁，其他事务不能再修改。此时不能保证幻读，幻读是由于事务并行处理导致的。跟 java 的并发处理一样的道理。而解决幻读的问题，一般交给上层语言，例如 java 的加锁操作，控制并发修改同一条数据。</p>
 <h2 id="4、Serializable-序列化"><a href="#4、Serializable-序列化" class="headerlink" title="4、Serializable 序列化"></a>4、Serializable 序列化</h2><p>序列化保证所有事务都是顺序执行的，就不会出现幻读的现象。</p>
 
       
