@@ -173,20 +173,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -217,6 +217,95 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://liangyaoren.github.io/2020/10/27/%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kb.jpg">
+      <meta itemprop="name" content="liyren">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liyren's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/10/27/%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">装饰器模式</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-10-27 09:32:08" itemprop="dateCreated datePublished" datetime="2020-10-27T09:32:08+08:00">2020-10-27</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-02-21 09:26:24" itemprop="dateModified" datetime="2021-02-21T09:26:24+08:00">2021-02-21</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>装饰器模式可以用于增强一个现有的对象，同时又不改变其结构。</p>
+<p>uml图如下：</p>
+<p><img src="/2020/10/27/%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/154657_065244_decorator.jpg" alt="decorator.jpg"></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/10/27/%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -875,7 +964,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-02-21 09:43:40" itemprop="dateModified" datetime="2021-02-21T09:43:40+08:00">2021-02-21</time>
+        <time title="修改时间：2021-02-21 09:56:23" itemprop="dateModified" datetime="2021-02-21T09:56:23+08:00">2021-02-21</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -997,90 +1086,6 @@
     <div class="post-body" itemprop="articleBody">
           <p>最近维护一个老系统，有一处查询非常慢，细细研究一番，优化了查询 sql。<br>该 sql 用来统计摄像机所有状态对应的数量，没加联合索引之前很慢，最后加了三个字段的联合索引优化到一秒左右。<br>check_day, camera_id, diagnosis_result<br>要注意，group by 的列也要加到组合索引里面去，这样查询才快。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	<span class="keyword">ifnull</span>(a.diagnosis_result, <span class="string">&#x27;&#x27;</span>) diagnosisResult,</span><br><span class="line">	<span class="keyword">count</span>(<span class="number">1</span>) total</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">	video_camera aa</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> video_intact_diagnosis_status_201912 a <span class="keyword">ON</span> (</span><br><span class="line">	aa.id = a.camera_id</span><br><span class="line">	<span class="keyword">AND</span> a.check_day = <span class="string">&#x27;20191223&#x27;</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> unit_project p <span class="keyword">ON</span> p.id = aa.project_id</span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line">	aa.del_flag = <span class="number">0</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span></span><br><span class="line">	a.diagnosis_result</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://liangyaoren.github.io/2020/10/24/mysql%E6%AD%BB%E9%94%81%E6%B5%8B%E8%AF%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kb.jpg">
-      <meta itemprop="name" content="liyren">
-      <meta itemprop="description" content="一蓑烟雨任平生">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liyren's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/10/24/mysql%E6%AD%BB%E9%94%81%E6%B5%8B%E8%AF%95/" class="post-title-link" itemprop="url">mysql 死锁测试</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-10-24 14:45:11" itemprop="dateCreated datePublished" datetime="2020-10-24T14:45:11+08:00">2020-10-24</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-02-21 09:42:13" itemprop="dateModified" datetime="2021-02-21T09:42:13+08:00">2021-02-21</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h4 id="1-创建测试表"><a href="#1-创建测试表" class="headerlink" title="1. 创建测试表"></a>1. 创建测试表</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`ty`</span> (</span><br><span class="line">  <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  <span class="string">`a`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`b`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">  PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>),</span><br><span class="line">  <span class="keyword">KEY</span> <span class="string">`idxa`</span> (<span class="string">`a`</span>)</span><br><span class="line">) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> AUTO_INCREMENT=<span class="number">14</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8mb4;</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-navicat-工具开启事务1窗口"><a href="#2-navicat-工具开启事务1窗口" class="headerlink" title="2. navicat 工具开启事务1窗口"></a>2. navicat 工具开启事务1窗口</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span>;                          //第一步，开启事务1</span><br><span class="line"><span class="keyword">UPDATE</span> ty <span class="keyword">SET</span> b =<span class="number">1</span> <span class="keyword">WHERE</span> a = <span class="number">2</span>; //第三步，锁定 a = 2 的记录</span><br><span class="line"><span class="keyword">UPDATE</span> ty <span class="keyword">SET</span> b =<span class="number">1</span> <span class="keyword">WHERE</span> a = <span class="number">3</span>; //第五步，卡主，等待事务2上 a = 3 的锁</span><br><span class="line"><span class="keyword">COMMIT</span>;                         </span><br></pre></td></tr></table></figure>
-
-<h4 id="3-navicat-工具开启事务2窗口"><a href="#3-navicat-工具开启事务2窗口" class="headerlink" title="3. navicat 工具开启事务2窗口"></a>3. navicat 工具开启事务2窗口</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span>;                          //第二步，开启事务2</span><br><span class="line"><span class="keyword">UPDATE</span> ty <span class="keyword">SET</span> b =<span class="number">1</span> <span class="keyword">WHERE</span> a = <span class="number">3</span>; //第四步，锁定 a = 3 的记录</span><br><span class="line"><span class="keyword">UPDATE</span> ty <span class="keyword">SET</span> b =<span class="number">1</span> <span class="keyword">WHERE</span> a = <span class="number">2</span>; //第六步，等待事务1上 a = 2 的锁，事务1和事务2互相等待对方的锁，此时出现死锁，mysql 会回退当前事务</span><br><span class="line"><span class="keyword">COMMIT</span>;                         </span><br></pre></td></tr></table></figure>
-
       
     </div>
 

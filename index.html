@@ -173,20 +173,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -217,6 +217,100 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://liangyaoren.github.io/2021/02/21/webService-%E6%8E%A5%E5%8F%A3%E5%AF%B9%E6%8E%A5%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kb.jpg">
+      <meta itemprop="name" content="liyren">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liyren's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/02/21/webService-%E6%8E%A5%E5%8F%A3%E5%AF%B9%E6%8E%A5%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/" class="post-title-link" itemprop="url">WebService 接口对接正确姿势</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-02-21 09:59:48 / 修改时间：10:57:03" itemprop="dateCreated datePublished" datetime="2021-02-21T09:59:48+08:00">2021-02-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/webService/" itemprop="url" rel="index"><span itemprop="name">webService</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>最近接手的 App 重构项目，进入到第三方平台接口对接模块，看到只有一个接口文档，里面没有接口地址，没有协议说明，只有一些字段说明，一眼看去有点懵，不知如何下手。</p>
+<p>于是翻看原 node.js 写的代码，找出了接口地址，发现是 wsdl 后缀，然后立马复制 url 用浏览器请求一下，发现本地打不开，原来是做了 ip 白名单，只允许服务器的 ip 请求，这就有点尴尬了，只好用 curl 命令在服务器上执行，发现返回了一段看不懂的 xml，经过谷歌搜索才知道这是传说中的 webService 接口。</p>
+<p>还是第一次碰到 webService 接口对接，只能依赖搜索引擎来上手了，于是我就在 wsdl、soap、envelope、UUDI 等专业名词上转来转去了，半天过去都没明白正确的开发姿势是什么。</p>
+<p>后来发现有个soapUi 的玩意能分析 wsdl 文件，提取服务接口地址参数等信息，再后面发现原来可以用 IDEA 根据 wsdl 地址生成 soapClient 代码，利用生成的代码即可完成服务远程调用。</p>
+<p>知道了正确开发姿势，就开始动手了，然而事情并非那么简单，还是遇到了一些问题，下面记录一下。</p>
+<h1 id="nginx-配置正向代理解决本地调试问题"><a href="#nginx-配置正向代理解决本地调试问题" class="headerlink" title="nginx 配置正向代理解决本地调试问题"></a>nginx 配置正向代理解决本地调试问题</h1><p>由于用 IDEA 生成 soapClient 代码，需要提供 wsdl 文件的 url 地址或者本地 wsdl 文件，而由于对方白名单现在，我本地无法请求对方服务器，于是想起了在服务器架设 nginx 正向代理实现本地调试。</p>
+<h2 id="nginx-增加-server-配置"><a href="#nginx-增加-server-配置" class="headerlink" title="nginx 增加 server 配置"></a>nginx 增加 server 配置</h2><p> 找到服务器的 nginx 配置文件目录，新建一个 conf 文件，填入配置，意思是将收到的请求全部转发，由于原项目用的是域名 + https，所以这里增加个配置不会干扰原来的线上环境。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        resolver 114.114.114.114;</span><br><span class="line">        listen 80;</span><br><span class="line">        location / &#123;</span><br><span class="line">                proxy_pass http://222.xxx.xxx.116:7x00$request_uri;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后原来的 wsdl 地址： <a href="http://222.xxx.xxx.116:7x00/service/xxx/query?wsdl">http://222.xxx.xxx.116:7x00/service/xxx/query?wsdl</a> 修改服务器的 ip 地址就可以访问了，也就是：<a target="_blank" rel="noopener" href="http://47.230.xxx.xxx/service/xxx/query?wsdl">http://47.230.xxx.xxx/service/xxx/query?wsdl</a> ，浏览器访问成功。</p>
+<p>本以为 IDEA 填写这个 wsdl 地址就可以，没想到，IDEA 解析 wsdl 后，会访问里面 xsd 的 schemaLocation 地址进行解析，这就尴尬了，这个地址无法代理啊。</p>
+<p>然而，还是有招，我把 wsdl 文件下载下来，把 xsd 的 schemaLocation 地址改掉服务器 ip 地址就可以了。</p>
+<h1 id="IDEA-生成-soapClient-代码"><a href="#IDEA-生成-soapClient-代码" class="headerlink" title="IDEA 生成 soapClient 代码"></a>IDEA 生成 soapClient 代码</h1><p>jdk 1.8 生成过程有个坑，会出现乱码，需要往 jdk/jre/lib 目录下新建一个  jaxp.properties 文件，写入 </p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">javax.xml.accessExternalSchema</span> = <span class="string">all</span></span><br></pre></td></tr></table></figure>
+
+<p>接着就可以顺利生成代码了，如下图：</p>
+<p><img src="/2021/02/21/webService-%E6%8E%A5%E5%8F%A3%E5%AF%B9%E6%8E%A5%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/ws-1.jpg"></p>
+<p><img src="/2021/02/21/webService-%E6%8E%A5%E5%8F%A3%E5%AF%B9%E6%8E%A5%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/ws-2.jpg"></p>
+<p><img src="/2021/02/21/webService-%E6%8E%A5%E5%8F%A3%E5%AF%B9%E6%8E%A5%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/ws-3.jpg"></p>
+<p><img src="/2021/02/21/webService-%E6%8E%A5%E5%8F%A3%E5%AF%B9%E6%8E%A5%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/ws-4.jpg"></p>
+<p>写个 main 方法调用生成的代码即可。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -981,95 +1075,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/10/27/%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://liangyaoren.github.io/2020/10/27/%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kb.jpg">
-      <meta itemprop="name" content="liyren">
-      <meta itemprop="description" content="一蓑烟雨任平生">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liyren's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/10/27/%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">装饰器模式</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-10-27 09:32:08" itemprop="dateCreated datePublished" datetime="2020-10-27T09:32:08+08:00">2020-10-27</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-02-21 09:26:24" itemprop="dateModified" datetime="2021-02-21T09:26:24+08:00">2021-02-21</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>装饰器模式可以用于增强一个现有的对象，同时又不改变其结构。</p>
-<p>uml图如下：</p>
-<p><img src="/2020/10/27/%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/154657_065244_decorator.jpg" alt="decorator.jpg"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/10/27/%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>

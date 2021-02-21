@@ -23,22 +23,28 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"liangyaoren.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.2.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
-<meta name="description" content="最近维护一个老系统，有一处查询非常慢，细细研究一番，优化了查询 sql。该 sql 用来统计摄像机所有状态对应的数量，没加联合索引之前很慢，最后加了三个字段的联合索引优化到一秒左右。check_day, camera_id, diagnosis_result要注意，group by 的列也要加到组合索引里面去，这样查询才快。 1234567891011121314SELECT	ifnull(a.d">
+<meta name="description" content="背景最近接手的 App 重构项目，进入到第三方平台接口对接模块，看到只有一个接口文档，里面没有接口地址，没有协议说明，只有一些字段说明，一眼看去有点懵，不知如何下手。 于是翻看原 node.js 写的代码，找出了接口地址，发现是 wsdl 后缀，然后立马复制 url 用浏览器请求一下，发现本地打不开，原来是做了 ip 白名单，只允许服务器的 ip 请求，这就有点尴尬了，只好用 curl 命令在服务">
 <meta property="og:type" content="article">
-<meta property="og:title" content="记录一次 group by 查询的优化">
-<meta property="og:url" content="http://liangyaoren.github.io/2020/10/26/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1-group-by-%E6%9F%A5%E8%AF%A2%E7%9A%84%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:title" content="WebService 接口对接正确姿势">
+<meta property="og:url" content="http://liangyaoren.github.io/2021/02/21/webService-%E6%8E%A5%E5%8F%A3%E5%AF%B9%E6%8E%A5%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/index.html">
 <meta property="og:site_name" content="Liyren&#39;s Blog">
-<meta property="og:description" content="最近维护一个老系统，有一处查询非常慢，细细研究一番，优化了查询 sql。该 sql 用来统计摄像机所有状态对应的数量，没加联合索引之前很慢，最后加了三个字段的联合索引优化到一秒左右。check_day, camera_id, diagnosis_result要注意，group by 的列也要加到组合索引里面去，这样查询才快。 1234567891011121314SELECT	ifnull(a.d">
+<meta property="og:description" content="背景最近接手的 App 重构项目，进入到第三方平台接口对接模块，看到只有一个接口文档，里面没有接口地址，没有协议说明，只有一些字段说明，一眼看去有点懵，不知如何下手。 于是翻看原 node.js 写的代码，找出了接口地址，发现是 wsdl 后缀，然后立马复制 url 用浏览器请求一下，发现本地打不开，原来是做了 ip 白名单，只允许服务器的 ip 请求，这就有点尴尬了，只好用 curl 命令在服务">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-10-26T00:48:46.000Z">
-<meta property="article:modified_time" content="2021-02-21T01:43:24.041Z">
+<meta property="og:image" content="http://liangyaoren.github.io/2021/02/21/webService-%E6%8E%A5%E5%8F%A3%E5%AF%B9%E6%8E%A5%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/ws-1.jpg">
+<meta property="og:image" content="http://liangyaoren.github.io/2021/02/21/webService-%E6%8E%A5%E5%8F%A3%E5%AF%B9%E6%8E%A5%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/ws-2.jpg">
+<meta property="og:image" content="http://liangyaoren.github.io/2021/02/21/webService-%E6%8E%A5%E5%8F%A3%E5%AF%B9%E6%8E%A5%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/ws-3.jpg">
+<meta property="og:image" content="http://liangyaoren.github.io/2021/02/21/webService-%E6%8E%A5%E5%8F%A3%E5%AF%B9%E6%8E%A5%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/ws-4.jpg">
+<meta property="article:published_time" content="2021-02-21T01:59:48.000Z">
+<meta property="article:modified_time" content="2021-02-21T02:57:03.678Z">
 <meta property="article:author" content="liyren">
-<meta property="article:tag" content="踩坑">
-<meta property="article:tag" content="sql优化">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="步骤">
+<meta property="article:tag" content="webService">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://liangyaoren.github.io/2021/02/21/webService-%E6%8E%A5%E5%8F%A3%E5%AF%B9%E6%8E%A5%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/ws-1.jpg">
 
 
-<link rel="canonical" href="http://liangyaoren.github.io/2020/10/26/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1-group-by-%E6%9F%A5%E8%AF%A2%E7%9A%84%E4%BC%98%E5%8C%96/">
+<link rel="canonical" href="http://liangyaoren.github.io/2021/02/21/webService-%E6%8E%A5%E5%8F%A3%E5%AF%B9%E6%8E%A5%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/">
 
 
 <script class="page-configurations">
@@ -50,7 +56,7 @@
     lang   : 'zh-CN'
   };
 </script>
-<title>记录一次 group by 查询的优化 | Liyren's Blog</title>
+<title>WebService 接口对接正确姿势 | Liyren's Blog</title>
   
 
 
@@ -149,7 +155,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -162,6 +168,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#nginx-%E9%85%8D%E7%BD%AE%E6%AD%A3%E5%90%91%E4%BB%A3%E7%90%86%E8%A7%A3%E5%86%B3%E6%9C%AC%E5%9C%B0%E8%B0%83%E8%AF%95%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">nginx 配置正向代理解决本地调试问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx-%E5%A2%9E%E5%8A%A0-server-%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.</span> <span class="nav-text">nginx 增加 server 配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IDEA-%E7%94%9F%E6%88%90-soapClient-%E4%BB%A3%E7%A0%81"><span class="nav-number">3.</span> <span class="nav-text">IDEA 生成 soapClient 代码</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -231,7 +238,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://liangyaoren.github.io/2020/10/26/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1-group-by-%E6%9F%A5%E8%AF%A2%E7%9A%84%E4%BC%98%E5%8C%96/">
+    <link itemprop="mainEntityOfPage" href="http://liangyaoren.github.io/2021/02/21/webService-%E6%8E%A5%E5%8F%A3%E5%AF%B9%E6%8E%A5%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/kb.jpg">
@@ -244,7 +251,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          记录一次 group by 查询的优化
+          WebService 接口对接正确姿势
         </h1>
 
         <div class="post-meta-container">
@@ -254,23 +261,17 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2020-10-26 08:48:46" itemprop="dateCreated datePublished" datetime="2020-10-26T08:48:46+08:00">2020-10-26</time>
+      <time title="创建时间：2021-02-21 09:59:48 / 修改时间：10:57:03" itemprop="dateCreated datePublished" datetime="2021-02-21T09:59:48+08:00">2021-02-21</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-02-21 09:43:24" itemprop="dateModified" datetime="2021-02-21T09:43:24+08:00">2021-02-21</time>
-      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
+          <a href="/categories/webService/" itemprop="url" rel="index"><span itemprop="name">webService</span></a>
         </span>
     </span>
 
@@ -284,8 +285,28 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>最近维护一个老系统，有一处查询非常慢，细细研究一番，优化了查询 sql。<br>该 sql 用来统计摄像机所有状态对应的数量，没加联合索引之前很慢，最后加了三个字段的联合索引优化到一秒左右。<br>check_day, camera_id, diagnosis_result<br>要注意，group by 的列也要加到组合索引里面去，这样查询才快。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	<span class="keyword">ifnull</span>(a.diagnosis_result, <span class="string">&#x27;&#x27;</span>) diagnosisResult,</span><br><span class="line">	<span class="keyword">count</span>(<span class="number">1</span>) total</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">	video_camera aa</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> video_intact_diagnosis_status_201912 a <span class="keyword">ON</span> (</span><br><span class="line">	aa.id = a.camera_id</span><br><span class="line">	<span class="keyword">AND</span> a.check_day = <span class="string">&#x27;20191223&#x27;</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> unit_project p <span class="keyword">ON</span> p.id = aa.project_id</span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line">	aa.del_flag = <span class="number">0</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span></span><br><span class="line">	a.diagnosis_result</span><br></pre></td></tr></table></figure>
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>最近接手的 App 重构项目，进入到第三方平台接口对接模块，看到只有一个接口文档，里面没有接口地址，没有协议说明，只有一些字段说明，一眼看去有点懵，不知如何下手。</p>
+<p>于是翻看原 node.js 写的代码，找出了接口地址，发现是 wsdl 后缀，然后立马复制 url 用浏览器请求一下，发现本地打不开，原来是做了 ip 白名单，只允许服务器的 ip 请求，这就有点尴尬了，只好用 curl 命令在服务器上执行，发现返回了一段看不懂的 xml，经过谷歌搜索才知道这是传说中的 webService 接口。</p>
+<p>还是第一次碰到 webService 接口对接，只能依赖搜索引擎来上手了，于是我就在 wsdl、soap、envelope、UUDI 等专业名词上转来转去了，半天过去都没明白正确的开发姿势是什么。</p>
+<p>后来发现有个soapUi 的玩意能分析 wsdl 文件，提取服务接口地址参数等信息，再后面发现原来可以用 IDEA 根据 wsdl 地址生成 soapClient 代码，利用生成的代码即可完成服务远程调用。</p>
+<p>知道了正确开发姿势，就开始动手了，然而事情并非那么简单，还是遇到了一些问题，下面记录一下。</p>
+<h1 id="nginx-配置正向代理解决本地调试问题"><a href="#nginx-配置正向代理解决本地调试问题" class="headerlink" title="nginx 配置正向代理解决本地调试问题"></a>nginx 配置正向代理解决本地调试问题</h1><p>由于用 IDEA 生成 soapClient 代码，需要提供 wsdl 文件的 url 地址或者本地 wsdl 文件，而由于对方白名单现在，我本地无法请求对方服务器，于是想起了在服务器架设 nginx 正向代理实现本地调试。</p>
+<h2 id="nginx-增加-server-配置"><a href="#nginx-增加-server-配置" class="headerlink" title="nginx 增加 server 配置"></a>nginx 增加 server 配置</h2><p> 找到服务器的 nginx 配置文件目录，新建一个 conf 文件，填入配置，意思是将收到的请求全部转发，由于原项目用的是域名 + https，所以这里增加个配置不会干扰原来的线上环境。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        resolver 114.114.114.114;</span><br><span class="line">        listen 80;</span><br><span class="line">        location / &#123;</span><br><span class="line">                proxy_pass http://222.xxx.xxx.116:7x00$request_uri;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后原来的 wsdl 地址： <a href="http://222.xxx.xxx.116:7x00/service/xxx/query?wsdl">http://222.xxx.xxx.116:7x00/service/xxx/query?wsdl</a> 修改服务器的 ip 地址就可以访问了，也就是：<a target="_blank" rel="noopener" href="http://47.230.xxx.xxx/service/xxx/query?wsdl">http://47.230.xxx.xxx/service/xxx/query?wsdl</a> ，浏览器访问成功。</p>
+<p>本以为 IDEA 填写这个 wsdl 地址就可以，没想到，IDEA 解析 wsdl 后，会访问里面 xsd 的 schemaLocation 地址进行解析，这就尴尬了，这个地址无法代理啊。</p>
+<p>然而，还是有招，我把 wsdl 文件下载下来，把 xsd 的 schemaLocation 地址改掉服务器 ip 地址就可以了。</p>
+<h1 id="IDEA-生成-soapClient-代码"><a href="#IDEA-生成-soapClient-代码" class="headerlink" title="IDEA 生成 soapClient 代码"></a>IDEA 生成 soapClient 代码</h1><p>jdk 1.8 生成过程有个坑，会出现乱码，需要往 jdk/jre/lib 目录下新建一个  jaxp.properties 文件，写入 </p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">javax.xml.accessExternalSchema</span> = <span class="string">all</span></span><br></pre></td></tr></table></figure>
+
+<p>接着就可以顺利生成代码了，如下图：</p>
+<p><img src="/2021/02/21/webService-%E6%8E%A5%E5%8F%A3%E5%AF%B9%E6%8E%A5%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/ws-1.jpg"></p>
+<p><img src="/2021/02/21/webService-%E6%8E%A5%E5%8F%A3%E5%AF%B9%E6%8E%A5%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/ws-2.jpg"></p>
+<p><img src="/2021/02/21/webService-%E6%8E%A5%E5%8F%A3%E5%AF%B9%E6%8E%A5%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/ws-3.jpg"></p>
+<p><img src="/2021/02/21/webService-%E6%8E%A5%E5%8F%A3%E5%AF%B9%E6%8E%A5%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/ws-4.jpg"></p>
+<p>写个 main 方法调用生成的代码即可。</p>
+
     </div>
 
     
@@ -294,22 +315,20 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E8%B8%A9%E5%9D%91/" rel="tag"># 踩坑</a>
-              <a href="/tags/sql%E4%BC%98%E5%8C%96/" rel="tag"># sql优化</a>
+              <a href="/tags/%E6%95%99%E7%A8%8B/" rel="tag"># 教程</a>
+              <a href="/tags/%E6%AD%A5%E9%AA%A4/" rel="tag"># 步骤</a>
+              <a href="/tags/webService/" rel="tag"># webService</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2020/10/24/mysql%E6%AD%BB%E9%94%81%E6%B5%8B%E8%AF%95/" rel="prev" title="mysql 死锁测试">
-                  <i class="fa fa-chevron-left"></i> mysql 死锁测试
+                <a href="/2021/02/15/Charles-study/" rel="prev" title="Charles 抓包配置步骤">
+                  <i class="fa fa-chevron-left"></i> Charles 抓包配置步骤
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2020/10/26/%E6%9C%AC%E5%9C%B0%E6%9C%BA%E5%99%A8%E6%90%AD%E5%BB%BA-kafka-%E9%9B%86%E7%BE%A4/" rel="next" title="本地机器搭建 kafka 集群">
-                  本地机器搭建 kafka 集群 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
