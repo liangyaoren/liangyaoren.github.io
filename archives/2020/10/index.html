@@ -503,5 +503,17 @@
 
 
 
+<script>
+NexT.utils.loadComments('#valine-comments', () => {
+  NexT.utils.getScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', () => {
+    new Valine(Object.assign({"enable":true,"appId":"rzKxEH1bdKCXnTdpPibkz0Ky-gzGzoHsz","appKey":"GnaN8656JcRExxnVutmTgjug","serverURLs":"https://notejava.com","placeholder":"Just go go","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"lang":null,"visitor":false,"comment_count":true,"recordIP":false,"enableQQ":false,"requiredFields":[]}, {
+      el: '#valine-comments',
+      path: "/archives/2020/10/",
+      serverURLs: "https://notejava.com"
+    }));
+  }, window.Valine);
+});
+</script>
+
 </body>
 </html>
