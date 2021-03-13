@@ -173,20 +173,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -217,6 +217,95 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://liangyaoren.github.io/2020/10/27/%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kb.jpg">
+      <meta itemprop="name" content="liyren">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liyren's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/10/27/%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">外观模式</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-10-27 09:32:25" itemprop="dateCreated datePublished" datetime="2020-10-27T09:32:25+08:00">2020-10-27</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-02-21 09:26:55" itemprop="dateModified" datetime="2021-02-21T09:26:55+08:00">2021-02-21</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>外观模式隐藏系统的复杂性，并向客户端提供了一个客户端可以访问系统的接口。这种模式涉及到一个单一的类，该类提供了客户端请求的简化方法和对现有系统类方法的委托调用。</p>
+<p>例子：通过ShapeMaker简化Shape的创建。</p>
+<p><img src="/2020/10/27/%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F/171153_084010_facade.jpg" alt="facade.jpg"></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/10/27/%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1006,86 +1095,6 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -fn 200 /home/kafka/kafka_2.12-2.2.0/logs/server.log </span><br></pre></td></tr></table></figure>
 <p>4、创建主题</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./kafka-topics.sh --create --zookeeper 192.168.2.121:2181 --replication-factor 3 --partitions 10 --topic request-online</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://liangyaoren.github.io/2020/10/26/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1-group-by-%E6%9F%A5%E8%AF%A2%E7%9A%84%E4%BC%98%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/kb.jpg">
-      <meta itemprop="name" content="liyren">
-      <meta itemprop="description" content="一蓑烟雨任平生">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Liyren's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/10/26/%E8%AE%B0%E5%BD%95%E4%B8%80%E6%AC%A1-group-by-%E6%9F%A5%E8%AF%A2%E7%9A%84%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">记录一次 group by 查询的优化</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2020-10-26 08:48:46" itemprop="dateCreated datePublished" datetime="2020-10-26T08:48:46+08:00">2020-10-26</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-02-21 09:43:24" itemprop="dateModified" datetime="2021-02-21T09:43:24+08:00">2021-02-21</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>最近维护一个老系统，有一处查询非常慢，细细研究一番，优化了查询 sql。<br>该 sql 用来统计摄像机所有状态对应的数量，没加联合索引之前很慢，最后加了三个字段的联合索引优化到一秒左右。<br>check_day, camera_id, diagnosis_result<br>要注意，group by 的列也要加到组合索引里面去，这样查询才快。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	<span class="keyword">ifnull</span>(a.diagnosis_result, <span class="string">&#x27;&#x27;</span>) diagnosisResult,</span><br><span class="line">	<span class="keyword">count</span>(<span class="number">1</span>) total</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">	video_camera aa</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> video_intact_diagnosis_status_201912 a <span class="keyword">ON</span> (</span><br><span class="line">	aa.id = a.camera_id</span><br><span class="line">	<span class="keyword">AND</span> a.check_day = <span class="string">&#x27;20191223&#x27;</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> unit_project p <span class="keyword">ON</span> p.id = aa.project_id</span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line">	aa.del_flag = <span class="number">0</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span></span><br><span class="line">	a.diagnosis_result</span><br></pre></td></tr></table></figure>
       
     </div>
 
