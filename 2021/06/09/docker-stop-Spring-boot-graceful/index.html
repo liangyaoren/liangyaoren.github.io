@@ -23,18 +23,22 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"liangyaoren.github.io","root":"/","images":"/images","scheme":"Pisces","version":"8.2.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
   </script>
-<meta name="description" content="一蓑烟雨任平生">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Liyren&#39;s Blog">
-<meta property="og:url" content="http://liangyaoren.github.io/archives/2021/index.html">
+<meta name="description" content="背景Spring Boot 项目发新版的时候，需要重启 jdk 容器。但是重启的瞬间，可能有用户请求尚未响应，如果直接停掉，会导致请求中断，用户体验不好。想了一下，有两个方案：  重启 tomcat-1 节点前，用 nginx 把流量切到 tomcat-2 节点。重启 tomcat-1 节点，将流量切回到 tomcat-1 节点，继续更新 tomcat-2 节点。 使用 Spring Boot 2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker 中优雅关闭 tomcat 容器">
+<meta property="og:url" content="http://liangyaoren.github.io/2021/06/09/docker-stop-Spring-boot-graceful/index.html">
 <meta property="og:site_name" content="Liyren&#39;s Blog">
-<meta property="og:description" content="一蓑烟雨任平生">
+<meta property="og:description" content="背景Spring Boot 项目发新版的时候，需要重启 jdk 容器。但是重启的瞬间，可能有用户请求尚未响应，如果直接停掉，会导致请求中断，用户体验不好。想了一下，有两个方案：  重启 tomcat-1 节点前，用 nginx 把流量切到 tomcat-2 节点。重启 tomcat-1 节点，将流量切回到 tomcat-1 节点，继续更新 tomcat-2 节点。 使用 Spring Boot 2">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://liangyaoren.github.io/2021/06/09/docker-stop-Spring-boot-graceful/graceful.jpg">
+<meta property="article:published_time" content="2021-06-09T08:09:58.000Z">
+<meta property="article:modified_time" content="2021-06-09T08:32:10.168Z">
 <meta property="article:author" content="liyren">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://liangyaoren.github.io/2021/06/09/docker-stop-Spring-boot-graceful/graceful.jpg">
 
 
-<link rel="canonical" href="http://liangyaoren.github.io/archives/2021/">
+<link rel="canonical" href="http://liangyaoren.github.io/2021/06/09/docker-stop-Spring-boot-graceful/">
 
 
 <script class="page-configurations">
@@ -42,11 +46,11 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
-<title>归档 | Liyren's Blog</title>
+<title>docker 中优雅关闭 tomcat 容器 | Liyren's Blog</title>
   
 
 
@@ -145,7 +149,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -158,6 +162,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#yml-%E9%85%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">yml 配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%A8-exec-%E5%91%BD%E4%BB%A4%E5%90%AF%E5%8A%A8-jdk-%E5%AE%B9%E5%99%A8"><span class="nav-number">3.</span> <span class="nav-text">用 exec 命令启动 jdk 容器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%88%E6%9E%9C"><span class="nav-number">4.</span> <span class="nav-text">效果</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -216,129 +221,94 @@
 </noscript>
 
 
-    <div class="main-inner archive posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
-  
-  
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 26 篇日志。 继续努力。</span>
-      </div>
 
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://liangyaoren.github.io/2021/06/09/docker-stop-Spring-boot-graceful/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kb.jpg">
+      <meta itemprop="name" content="liyren">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liyren's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          docker 中优雅关闭 tomcat 容器
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
       
-    <div class="collection-year">
-      <span class="collection-header">2021</span>
+
+      <time title="创建时间：2021-06-09 16:09:58 / 修改时间：16:32:10" itemprop="dateCreated datePublished" datetime="2021-06-09T16:09:58+08:00">2021-06-09</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>Spring Boot 项目发新版的时候，需要重启 jdk 容器。但是重启的瞬间，可能有用户请求尚未响应，如果直接停掉，会导致请求中断，用户体验不好。想了一下，有两个方案：</p>
+<ul>
+<li>重启 tomcat-1 节点前，用 nginx 把流量切到 tomcat-2 节点。重启 tomcat-1 节点，将流量切回到 tomcat-1 节点，继续更新 tomcat-2 节点。</li>
+<li>使用 Spring Boot 2.3 后提供的优雅关闭配置，配合 docker 容器启动命令。   </li>
+</ul>
+<p>显然，第二种方案更简单。</p>
+<h1 id="yml-配置"><a href="#yml-配置" class="headerlink" title="yml 配置"></a>yml 配置</h1><p>在 application.yml 文件增加配置内容：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line">  <span class="attr">shutdown:</span> <span class="string">graceful</span></span><br></pre></td></tr></table></figure>
+<h1 id="用-exec-命令启动-jdk-容器"><a href="#用-exec-命令启动-jdk-容器" class="headerlink" title="用 exec 命令启动 jdk 容器"></a>用 exec 命令启动 jdk 容器</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exec java -Djava.security.egd=file:/dev/./urandom -Duser.timezone=Asia/Shanghai -jar /jar/app.jar --spring.config.location=/conf/application.yml</span><br></pre></td></tr></table></figure>
+
+<h1 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h1><p>项目重启时，会打印以下内容，证明生效。<br><img src="/2021/06/09/docker-stop-Spring-boot-graceful/graceful.jpg" alt="enter description here"></p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-06-09T16:09:58+08:00"
-              content="2021-06-09">
-          06-09
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/06/09/docker-stop-Spring-boot-graceful/" itemprop="url">
-            <span itemprop="name">docker 中优雅关闭 tomcat 容器</span>
-          </a>
-      </div>
+    <footer class="post-footer">
 
-      
-    </header>
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/03/13/docker-compose-nginx-mysql-redis/" rel="prev" title="docker 搭 nginx、mysql、redis 服务">
+                  <i class="fa fa-chevron-left"></i> docker 搭 nginx、mysql、redis 服务
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
   </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-03-13T17:21:23+08:00"
-              content="2021-03-13">
-          03-13
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/03/13/docker-compose-nginx-mysql-redis/" itemprop="url">
-            <span itemprop="name">docker 搭 nginx、mysql、redis 服务</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-02-21T09:59:48+08:00"
-              content="2021-02-21">
-          02-21
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/02/21/webService-%E6%8E%A5%E5%8F%A3%E5%AF%B9%E6%8E%A5%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF/" itemprop="url">
-            <span itemprop="name">WebService 接口对接正确姿势</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-02-15T15:55:19+08:00"
-              content="2021-02-15">
-          02-15
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/02/15/Charles-study/" itemprop="url">
-            <span itemprop="name">Charles 抓包配置步骤</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2021-02-02T17:42:48+08:00"
-              content="2021-02-02">
-          02-02
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/02/02/mysql-table-design-to-markdown-table/" itemprop="url">
-            <span itemprop="name">mysql 表设计导出 markdown 表格</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
+</div>
 
 
-    </div>
-  </div>
-  
-  
-  
+
+
+
 
 
 <script>

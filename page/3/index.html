@@ -173,7 +173,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -217,6 +217,104 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://liangyaoren.github.io/2020/10/26/%E6%9C%AC%E5%9C%B0%E6%9C%BA%E5%99%A8%E6%90%AD%E5%BB%BA-kafka-%E9%9B%86%E7%BE%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/kb.jpg">
+      <meta itemprop="name" content="liyren">
+      <meta itemprop="description" content="一蓑烟雨任平生">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Liyren's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/10/26/%E6%9C%AC%E5%9C%B0%E6%9C%BA%E5%99%A8%E6%90%AD%E5%BB%BA-kafka-%E9%9B%86%E7%BE%A4/" class="post-title-link" itemprop="url">本地机器搭建 kafka 集群</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-10-26 10:34:18" itemprop="dateCreated datePublished" datetime="2020-10-26T10:34:18+08:00">2020-10-26</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-02-21 09:56:23" itemprop="dateModified" datetime="2021-02-21T09:56:23+08:00">2021-02-21</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/kafka/" itemprop="url" rel="index"><span itemprop="name">kafka</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="1、虚拟三台CentOS"><a href="#1、虚拟三台CentOS" class="headerlink" title="1、虚拟三台CentOS"></a>1、虚拟三台CentOS</h1><p>1、管理员模式启动 VMware。<br>2、VMware =&gt; 编辑 =&gt; 虚拟网络编辑器 =&gt;选择 Net 模式；关闭 dhcp；记录下网关地址。<br>3、虚拟出三台主机后，修改静态ip，网段和第2点的网段一样，网关对应第2点的网关地址。重启 service network restart。<br>4、修改宿主主机的 VMware Network Adapter VMnet8 的 ip 地址，设置和第2点同样的网段地址。（非常重要，否则会出现主机 ping 不通虚拟机的情况）<br>参考文章 <a target="_blank" rel="noopener" href="https://www.linuxidc.com/Linux/2017-05/144328.htm">https://www.linuxidc.com/Linux/2017-05/144328.htm</a></p>
+<h1 id="2、安装-zookeeper"><a href="#2、安装-zookeeper" class="headerlink" title="2、安装 zookeeper"></a>2、安装 zookeeper</h1><p>1、参考文章<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/luotianshuai/p/5206662.html">https://www.cnblogs.com/luotianshuai/p/5206662.html</a></p>
+<p>2、替换可用yum源，非常重要，参考其他笔记</p>
+<p>3、安装jdk</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install java-1.8.0-openjdk*</span><br></pre></td></tr></table></figure>
+
+<p>4、zookeeper 安装简要命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mkdir /home/zookeeper</span><br><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/stable/apache-zookeeper-3.5.5-bin.tar.gz</span><br><span class="line">tar -xvf /home/zookeeper/apache-zookeeper-3.5.5-bin.tar.gz</span><br><span class="line">cd /home/zookeeper</span><br><span class="line">mkdir zkdata</span><br><span class="line">mkdir zkdatalog</span><br><span class="line">cp apache-zookeeper-3.5.5-bin/conf/zoo_sample.cfg apache-zookeeper-3.5.5-bin/conf/zoo.cfg</span><br><span class="line">vi apache-zookeeper-3.5.5-bin/conf/zoo.cfg</span><br><span class="line">//配置下面内容-----</span><br><span class="line">tickTime=2000</span><br><span class="line">initLimit=10</span><br><span class="line">syncLimit=5</span><br><span class="line">dataDir=/home/zookeeper/zkdata</span><br><span class="line">dataLogDir=/home/zookeeper/zkdatalog</span><br><span class="line">clientPort=2181</span><br><span class="line">server.1=192.168.75.86:2888:3888</span><br><span class="line">server.2=192.168.75.87:2888:3888</span><br><span class="line">server.3=192.168.75.88:2888:3888</span><br><span class="line">//配置内容结束------</span><br></pre></td></tr></table></figure>
+<p>5、启动 zookeeper</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/home/zookeeper/apache-zookeeper-3.5.5-bin/bin/zkServer.sh start //直接启动</span><br><span class="line">/home/zookeeper/apache-zookeeper-3.5.5-bin/bin/zkServer.sh start-foreground //边启动边看日志</span><br></pre></td></tr></table></figure>
+<p>6、查看状态</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/home/zookeeper/apache-zookeeper-3.5.5-bin/bin/zkServer.sh status</span><br></pre></td></tr></table></figure>
+<h1 id="3、安装-kafka"><a href="#3、安装-kafka" class="headerlink" title="3、安装 kafka"></a>3、安装 kafka</h1><p>1、kafka 安装简要命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mkdir /home/kafka</span><br><span class="line">wget ...</span><br><span class="line">tar -xvf ...</span><br><span class="line">vi server.properties</span><br><span class="line">配置下面两项---</span><br><span class="line">host.name=192.168.75.86</span><br><span class="line">zookeeper.connect=192.168.75.86:2181,192.168.75.87:2181,192.168.75.88:2181</span><br><span class="line">结束配置-----</span><br></pre></td></tr></table></figure>
+<p>2、启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/home/kafka/kafka_2.12-2.2.0/bin/kafka-server-start.sh -daemon /home/kafka/kafka_2.12-2.2.0/config/server.properties</span><br></pre></td></tr></table></figure>
+<p>3、查看日志</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -fn 200 /home/kafka/kafka_2.12-2.2.0/logs/server.log </span><br></pre></td></tr></table></figure>
+<p>4、创建主题</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./kafka-topics.sh --create --zookeeper 192.168.2.121:2181 --replication-factor 3 --partitions 10 --topic request-online</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
