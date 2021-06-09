@@ -26,20 +26,20 @@
 <meta name="description" content="观察者模式用于一对多的对象关系中，当一个对象被修改时，会自动通知它的依赖对象。java中通过Observable类和Observer接口实现了观察者模式。 例子：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="观察者模式">
-<meta property="og:url" content="http://liangyaoren.github.io/2020/10/27/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:url" content="http://liangyaoren.github.io/2019/10/27/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Liyren&#39;s Blog">
 <meta property="og:description" content="观察者模式用于一对多的对象关系中，当一个对象被修改时，会自动通知它的依赖对象。java中通过Observable类和Observer接口实现了观察者模式。 例子：">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://liangyaoren.github.io/2020/10/27/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/141036_012943_observer.jpg">
-<meta property="article:published_time" content="2020-10-27T01:32:45.000Z">
-<meta property="article:modified_time" content="2021-02-21T01:28:24.558Z">
+<meta property="og:image" content="http://liangyaoren.github.io/2019/10/27/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/141036_012943_observer.jpg">
+<meta property="article:published_time" content="2019-10-27T01:32:45.000Z">
+<meta property="article:modified_time" content="2021-06-09T08:54:50.808Z">
 <meta property="article:author" content="liyren">
 <meta property="article:tag" content="设计模式">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://liangyaoren.github.io/2020/10/27/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/141036_012943_observer.jpg">
+<meta name="twitter:image" content="http://liangyaoren.github.io/2019/10/27/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/141036_012943_observer.jpg">
 
 
-<link rel="canonical" href="http://liangyaoren.github.io/2020/10/27/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">
+<link rel="canonical" href="http://liangyaoren.github.io/2019/10/27/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">
 
 
 <script class="page-configurations">
@@ -191,7 +191,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -232,7 +232,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://liangyaoren.github.io/2020/10/27/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">
+    <link itemprop="mainEntityOfPage" href="http://liangyaoren.github.io/2019/10/27/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/kb.jpg">
@@ -256,14 +256,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2020-10-27 09:32:45" itemprop="dateCreated datePublished" datetime="2020-10-27T09:32:45+08:00">2020-10-27</time>
+      <time title="创建时间：2019-10-27 09:32:45" itemprop="dateCreated datePublished" datetime="2019-10-27T09:32:45+08:00">2019-10-27</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-02-21 09:28:24" itemprop="dateModified" datetime="2021-02-21T09:28:24+08:00">2021-02-21</time>
+        <time title="修改时间：2021-06-09 16:54:50" itemprop="dateModified" datetime="2021-06-09T16:54:50+08:00">2021-06-09</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -287,7 +287,7 @@
     <div class="post-body" itemprop="articleBody">
         <p>观察者模式用于一对多的对象关系中，当一个对象被修改时，会自动通知它的依赖对象。java中通过Observable类和Observer接口实现了观察者模式。</p>
 <p>例子：</p>
-<p><img src="/2020/10/27/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/141036_012943_observer.jpg" alt="observer.jpg"></p>
+<p><img src="/2019/10/27/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/141036_012943_observer.jpg" alt="observer.jpg"></p>
 <a id="more"></a>
 
 <p><strong>Observer（观察者）</strong></p>
@@ -322,12 +322,12 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2020/10/27/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" rel="prev" title="代理模式">
+                <a href="/2019/10/27/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" rel="prev" title="代理模式">
                   <i class="fa fa-chevron-left"></i> 代理模式
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2020/10/27/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" rel="next" title="适配器模式">
+                <a href="/2019/10/27/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/" rel="next" title="适配器模式">
                   适配器模式 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
